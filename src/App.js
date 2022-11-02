@@ -3,7 +3,11 @@ import './App.css';
 import router from './Router/Routes/Routes';
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <div data-theme="light" className="max-w-7xl mx-auto">
+      <RouterProvider router={router}></RouterProvider>;
+    </div>
+  );
 }
 
 export default App;
