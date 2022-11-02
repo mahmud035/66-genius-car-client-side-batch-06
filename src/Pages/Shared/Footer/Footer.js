@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="footer p-20 bg-black text-white">
       <div>
-        <img src={logo} alt="" />
+        <img src={logo} className="w-20" alt="" />
         <p>ACME Industries Ltd. Providing reliable tech since 1992</p>
       </div>
       <div>
