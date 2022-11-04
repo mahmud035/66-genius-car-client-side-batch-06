@@ -10,7 +10,7 @@ const Services = () => {
       .then((data) => setServices(data));
   }, []);
 
-  console.log(services);
+  // console.log(services);
   return (
     <div className="pt-10 pb-24">
       <div className="text-center">
