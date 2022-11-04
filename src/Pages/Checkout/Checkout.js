@@ -1,13 +1,76 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
 const Checkout = () => {
   const service = useLoaderData();
-  const { title } = service;
+  const { _id, title, price } = service;
+  const { user } = useContext(AuthContext);
+
+  const handlePlaceOrder = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const name = `${form.firstName.value} ${form.lastName.value}`;
+    const email = user?.email || 'unregistered';
+    const phone = form.phone.value;
+    const message = form.message.value;
+
+    const order = {
+      service: _id,
+      serviceName: title,
+      price,
+      customer: name,
+      email,
+      phone,
+      message,
+    };
+  };
 
   return (
-    <div>
-      <h2>{title}</h2>
+    <div className="py-10">
+      <h2 className="text-4xl">You are about to order: {title}</h2>
+      <h4 className="text-3xl py-4">Price:{price}</h4>
+      <form onSubmit={handlePlaceOrder}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            className="input input-bordered w-full"
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            className="input input-bordered w-full"
+          />
+          <input
+            type="number"
+            name="phone"
+            placeholder="Your Phone"
+            className="input input-bordered w-full"
+          />
+          <input
+            type="email"
+            name="email"
+            defaultValue={user?.email}
+            readOnly
+            placeholder="Your Email"
+            className="input input-bordered w-full"
+          />
+        </div>
+        <textarea
+          name="message"
+          className="textarea textarea-bordered w-full h-24 mt-4"
+          placeholder="Your Message"
+        ></textarea>
+        <input
+          className="btn btn-outline btn-dark mt-4"
+          type="submit"
+          value="Place Your Order"
+        />
+      </form>
     </div>
   );
 };
