@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import image from '../../assets/images/login/login.svg';
+import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
 const SignUp = () => {
+  const { createUser } = useContext(AuthContext);
+
   const handleSignUp = (e) => {
     e.preventDefault();
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast.success('User created successfully');
+      })
+      .catch((error) => {
+        toast.error(error.message.slice(22, -2));
+      });
   };
   return (
     <div>
@@ -14,7 +32,7 @@ const SignUp = () => {
             <img src={image} alt="" />
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <h1 className="text-5xl font-bold text-center">Sign Up </h1>
+            <h1 className="text-5xl font-bold text-center pt-8">Sign Up </h1>
             <form onSubmit={handleSignUp} className="card-body">
               <div className="form-control">
                 <label className="label">

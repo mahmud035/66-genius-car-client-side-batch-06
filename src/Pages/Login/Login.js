@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import image from '../../assets/images/login/login.svg';
+import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
 const Login = () => {
+  const { emailAndPasswordSignIn } = useContext(AuthContext);
   const handleLogin = (e) => {
     e.preventDefault();
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    emailAndPasswordSignIn(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast.success('Logged in successfully');
+      })
+      .catch((error) => {
+        toast.error(error.message.slice(22, -2));
+      });
   };
 
   return (
