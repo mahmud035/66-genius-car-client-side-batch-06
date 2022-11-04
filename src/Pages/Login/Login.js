@@ -1,11 +1,17 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import image from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
 const Login = () => {
   const { emailAndPasswordSignIn } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  let from = location.state?.from?.pathname || '/';
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -18,6 +24,8 @@ const Login = () => {
         const user = result.user;
         console.log(user);
         toast.success('Logged in successfully');
+
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         toast.error(error.message.slice(22, -2));
