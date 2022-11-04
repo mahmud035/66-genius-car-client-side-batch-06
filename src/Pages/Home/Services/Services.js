@@ -23,10 +23,16 @@ const Services = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {services.map((service, index) => (
           <ServiceCard key={index} service={service}></ServiceCard>
         ))}
+      </div>
+
+      <div className="w-fit mx-auto mt-16">
+        <button className="btn btn-outline text-orange-600 ">
+          More Services
+        </button>
       </div>
     </div>
   );
