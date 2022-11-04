@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
 const Checkout = () => {
@@ -16,6 +17,11 @@ const Checkout = () => {
     const phone = form.phone.value;
     const message = form.message.value;
 
+    // if (phone.length !== 11) {
+    //   toast.warn('Phone number should be 11 characters');
+    //   return;
+    // }
+
     const order = {
       service: _id,
       serviceName: title,
@@ -25,6 +31,25 @@ const Checkout = () => {
       phone,
       message,
     };
+
+    fetch('http://localhost:5000/orders', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          toast.success('Orders placed successfully');
+          form.reset();
+          console.log(data);
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message.slice(22, -2));
+      });
   };
 
   return (
@@ -50,6 +75,7 @@ const Checkout = () => {
             name="phone"
             placeholder="Your Phone"
             className="input input-bordered w-full"
+            required
           />
           <input
             type="email"
