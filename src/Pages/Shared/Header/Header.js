@@ -20,6 +20,9 @@ const Header = () => {
       <li className="font-semibold">
         <NavLink to="/">Contact</NavLink>
       </li>
+      <li className="font-semibold">
+        <NavLink to="/login">Login</NavLink>
+      </li>
     </>
   );
 
