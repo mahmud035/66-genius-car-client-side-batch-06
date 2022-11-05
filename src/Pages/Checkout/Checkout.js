@@ -23,7 +23,7 @@ const Checkout = () => {
     // }
 
     const order = {
-      service: _id,
+      serviceId: _id,
       serviceName: title,
       price,
       customer: name,
@@ -43,7 +43,7 @@ const Checkout = () => {
       .then((data) => {
         if (data.acknowledged) {
           toast.success('Orders placed successfully');
-          form.reset();
+          // form.reset();
           console.log(data);
         }
       })
@@ -91,6 +91,7 @@ const Checkout = () => {
           className="textarea textarea-bordered w-full h-24 mt-4"
           placeholder="Your Message"
         ></textarea>
+
         <Link to="/orders">
           <input
             className="btn btn-outline btn-dark mt-4"
