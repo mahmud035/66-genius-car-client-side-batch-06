@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
@@ -91,11 +91,13 @@ const Checkout = () => {
           className="textarea textarea-bordered w-full h-24 mt-4"
           placeholder="Your Message"
         ></textarea>
-        <input
-          className="btn btn-outline btn-dark mt-4"
-          type="submit"
-          value="Place Your Order"
-        />
+        <Link to="/orders">
+          <input
+            className="btn btn-outline btn-dark mt-4"
+            type="submit"
+            value="Place Your Order"
+          />
+        </Link>
       </form>
     </div>
   );
