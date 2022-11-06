@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
@@ -7,6 +7,8 @@ const Checkout = () => {
   const service = useLoaderData();
   const { _id, title, price } = service;
   const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
@@ -43,8 +45,10 @@ const Checkout = () => {
       .then((data) => {
         if (data.acknowledged) {
           toast.success('Orders placed successfully');
-          // form.reset();
+          form.reset();
           console.log(data);
+
+          navigate('/orders');
         }
       })
       .catch((error) => {
@@ -92,13 +96,11 @@ const Checkout = () => {
           placeholder="Your Message"
         ></textarea>
 
-        <Link to="/orders">
-          <input
-            className="btn btn-outline btn-dark mt-4"
-            type="submit"
-            value="Place Your Order"
-          />
-        </Link>
+        <input
+          className="btn btn-outline btn-dark mt-4"
+          type="submit"
+          value="Place Your Order"
+        />
       </form>
     </div>
   );
