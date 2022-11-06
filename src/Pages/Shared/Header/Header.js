@@ -1,10 +1,24 @@
 import React, { useContext } from 'react';
 import logo from '../../../assets/logo.svg';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Context/AuthProvider/AuthProvider';
+import { toast } from 'react-toastify';
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        toast.warn('User Logged Out');
+
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   const menuItems = (
     <>
@@ -28,6 +42,11 @@ const Header = () => {
         <>
           <li className="font-semibold">
             <NavLink to="/orders">Orders</NavLink>
+          </li>
+          <li className="font-semibold">
+            <button onClick={handleLogOut} className="btn btn-ghost">
+              Sign Out
+            </button>
           </li>
         </>
       ) : (
