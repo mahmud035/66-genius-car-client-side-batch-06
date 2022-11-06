@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from '../../../assets/logo.svg';
 import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../../../Context/AuthProvider/AuthProvider';
 
 const Header = () => {
+  const { user } = useContext(AuthContext);
+
   const menuItems = (
     <>
       <li className="font-semibold">
@@ -20,9 +23,18 @@ const Header = () => {
       <li className="font-semibold">
         <NavLink to="/">Contact</NavLink>
       </li>
-      <li className="font-semibold">
-        <NavLink to="/login">Login</NavLink>
-      </li>
+
+      {user?.email ? (
+        <>
+          <li className="font-semibold">
+            <NavLink to="/orders">Orders</NavLink>
+          </li>
+        </>
+      ) : (
+        <li className="font-semibold">
+          <NavLink to="/login">Login</NavLink>
+        </li>
+      )}
     </>
   );
 
