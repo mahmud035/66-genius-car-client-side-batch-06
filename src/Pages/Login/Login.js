@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { setAuthToken } from '../../API-JWT-Token/setAuthToken';
 import image from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 
 const Login = () => {
   const { emailAndPasswordSignIn } = useContext(AuthContext);
@@ -24,28 +26,10 @@ const Login = () => {
         const user = result.user;
         toast.success('Logged in successfully');
 
-        const currentUser = {
-          email: user.email,
-        };
-        console.log(currentUser);
+        //* JWT Token
+        setAuthToken(user);
 
-        //! get JWT Token
-        fetch('https://genius-car-server-side-nine.vercel.app/jwt', {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-          },
-          body: JSON.stringify(currentUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            // local storage is the easiest but not the best place to store token
-            localStorage.setItem('genius-token', data.token);
-            navigate(from, { replace: true });
-          });
-
-        // navigate(from, { replace: true });
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         toast.error(error.message.slice(22, -2));
@@ -104,6 +88,8 @@ const Login = () => {
               Sign Up
             </Link>
           </p>
+
+          <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>

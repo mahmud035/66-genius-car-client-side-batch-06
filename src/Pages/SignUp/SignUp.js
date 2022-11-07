@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { setAuthToken } from '../../API-JWT-Token/setAuthToken';
 import image from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
@@ -19,6 +20,9 @@ const SignUp = () => {
         const user = result.user;
         console.log(user);
         toast.success('User created successfully');
+
+        //* JWT Token
+        setAuthToken(user);
       })
       .catch((error) => {
         toast.error(error.message.slice(22, -2));
