@@ -16,8 +16,8 @@ const Orders = () => {
       },
     })
       .then((res) => {
+        // Handle 401, 403 to log out user
         if (res.status === 401 || res.status === 403) {
-          //! Handle 401, 403 to log out user
           logOut()
             .then(() => {})
             .catch((error) => {
@@ -26,11 +26,11 @@ const Orders = () => {
           navigate('/login');
         }
 
+        // return obossoi-e likhte hobe
         return res.json();
       })
       .then((data) => {
         setOrders(data);
-        // console.log(data);
       });
   }, [user?.email, logOut, navigate]);
 
@@ -41,6 +41,9 @@ const Orders = () => {
     if (agree) {
       fetch(`http://localhost:5000/orders/${id}`, {
         method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('genius-token')}`,
+        },
       })
         .then((res) => res.json())
         .then((data) => {
@@ -57,7 +60,10 @@ const Orders = () => {
   const handleStatusChange = (id) => {
     fetch(`http://localhost:5000/orders/${id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('genius-token')}`,
+      },
       body: JSON.stringify({ status: 'Approved' }),
     })
       .then((res) => res.json())
