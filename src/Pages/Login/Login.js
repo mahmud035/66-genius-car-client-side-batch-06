@@ -29,7 +29,7 @@ const Login = () => {
         };
         console.log(currentUser);
 
-        // get JWT Token
+        //! get JWT Token
         fetch('http://localhost:5000/jwt', {
           method: 'POST',
           headers: {
@@ -42,9 +42,10 @@ const Login = () => {
             console.log(data);
             // local storage is the easiest but not the best place to store token
             localStorage.setItem('genius-token', data.token);
+            navigate(from, { replace: true });
           });
 
-        navigate(from, { replace: true });
+        // navigate(from, { replace: true });
       })
       .catch((error) => {
         toast.error(error.message.slice(22, -2));
