@@ -30,7 +30,7 @@ const Login = () => {
         console.log(currentUser);
 
         //! get JWT Token
-        fetch('http://localhost:5000/jwt', {
+        fetch('https://genius-car-server-side-nine.vercel.app/jwt', {
           method: 'POST',
           headers: {
             'content-type': 'application/json',

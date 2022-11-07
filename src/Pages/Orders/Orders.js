@@ -10,11 +10,14 @@ const Orders = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/orders?email=${user?.email}`, {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('genius-token')}`,
-      },
-    })
+    fetch(
+      `https://genius-car-server-side-nine.vercel.app/orders?email=${user?.email}`,
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('genius-token')}`,
+        },
+      }
+    )
       .then((res) => {
         // Handle 401, 403 to log out user
         if (res.status === 401 || res.status === 403) {
@@ -39,7 +42,7 @@ const Orders = () => {
     const agree = window.confirm('Are you sure you want to cancel this order?');
 
     if (agree) {
-      fetch(`http://localhost:5000/orders/${id}`, {
+      fetch(`https://genius-car-server-side-nine.vercel.app/orders/${id}`, {
         method: 'DELETE',
         headers: {
           authorization: `Bearer ${localStorage.getItem('genius-token')}`,
@@ -58,7 +61,7 @@ const Orders = () => {
   };
 
   const handleStatusChange = (id) => {
-    fetch(`http://localhost:5000/orders/${id}`, {
+    fetch(`https://genius-car-server-side-nine.vercel.app/orders/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
