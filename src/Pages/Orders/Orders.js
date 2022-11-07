@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 import OrderRow from './OrderRow';
 
 const Orders = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:5000/orders?email=${user?.email}`, {
@@ -13,11 +15,24 @@ const Orders = () => {
         authorization: `Bearer ${localStorage.getItem('genius-token')}`,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          //! Handle 401, 403 to log out user
+          logOut()
+            .then(() => {})
+            .catch((error) => {
+              console.log(error.message);
+            });
+          navigate('/login');
+        }
+
+        return res.json();
+      })
       .then((data) => {
         setOrders(data);
+        // console.log(data);
       });
-  }, [user?.email]);
+  }, [user?.email, logOut, navigate]);
 
   const handleDelete = (id) => {
     // console.log(id);
